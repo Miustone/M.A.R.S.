@@ -1,6 +1,6 @@
 #XPERIA - SYSTEM AS ROOT FLASHER
 show_progress(1.000000, 0);
-ui_print(" ");
+ui_print("M.A.R.S. INSTALLER");
 ui_print(" ");
 ui_print("POWERED BY:");
 ui_print("M1U5T0N3");
@@ -61,7 +61,9 @@ set_progress(0.600000);
 #ui_print("SETTING PERMISSIONS...");
 #ui_print(" ");
 set_progress(0.700000);
-ui_print(" "); ui_print("EXTRACTING BOOT IMAGE..."); ui_print(" ");
+ui_print(" "); 
+ui_print("EXTRACTING BOOT IMAGE..."); 
+ui_print(" ");
 package_extract_file("boot.img", file_getprop("/tmp/config", "boot"));
 #UNMOUNT
 ifelse(is_mounted(file_getprop("/tmp/config", "sysmnt")), unmount(file_getprop("/tmp/config", "sysmnt")));
@@ -80,6 +82,7 @@ run_program("/tmp/install/bin/busybox","sh","/tmp/gapps/META-INF/com/google/andr
 ifelse(is_mounted(file_getprop("/tmp/config", "sysmnt")), "", mount("ext4", "EMMC", file_getprop("/tmp/config", "system"), file_getprop("/tmp/config", "sysmnt")));
 set_progress(0.900000);
 #PATCH
+ui_print("PATCH");
 run_program("/sbin/sleep","2");
 run_program("/tmp/install/bin/busybox","unzip","/tmp/patch/patch.zip","META-INF/com/google/android/*","-d","/tmp/patch");
 run_program("/tmp/install/bin/busybox","sh","/tmp/patch/META-INF/com/google/android/update-binary","dummy","1","/tmp/patch/patch.zip");
