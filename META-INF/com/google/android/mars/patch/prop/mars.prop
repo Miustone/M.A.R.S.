@@ -1,0 +1,5 @@
+BACKUP=Y
+!#
+wifi.supplicant_scan_interval=3600
+wlan.wfd.hdcp=enable
+
