@@ -1,14 +1,14 @@
 #XPERIA - SYSTEM AS ROOT FLASHER
 show_progress(1.000000, 0);
-ui_print("M.A.R.S. INSTALLER");
 ui_print(" ");
+ui_print("M.A.R.S. INSTALLER");
 ui_print("POWERED BY:");
 ui_print("M1U5T0N3");
 ui_print("&");
 ui_print("SUPERR KITCHEN");
 ui_print(" ");
 ui_print(" ");
-ui_print("EXTRACTING TOOLS");
+ui_print("EXTRACTING TOOLS...");
 ui_print(" ");
 run_program("/sbin/sleep","1");
 package_extract_dir("META-INF/com/google/android/mars/gapps/gapps","/tmp/gapps");
@@ -69,12 +69,12 @@ package_extract_file("boot.img", file_getprop("/tmp/config", "boot"));
 ifelse(is_mounted(file_getprop("/tmp/config", "sysmnt")), unmount(file_getprop("/tmp/config", "sysmnt")));
 set_progress(0.800000);
 #MAGISK
-ui_print("MAGISK");
+ui_print("INSTALLING MAGISK...");
 run_program("/sbin/sleep","2");
 run_program("/tmp/install/bin/busybox","unzip","/tmp/magisk/magisk.zip","META-INF/com/google/android/*","-d","/tmp/magisk");
 run_program("/tmp/install/bin/busybox","sh","/tmp/magisk/META-INF/com/google/android/update-binary","dummy","1","/tmp/magisk/magisk.zip");
 #GAPPS
-ui_print("GAPPS");
+ui_print("INSTALLING GAPPS...");
 run_program("/sbin/sleep","2");
 run_program("/tmp/install/bin/busybox","unzip","/tmp/gapps/gapps.zip","META-INF/com/google/android/*","-d","/tmp/gapps");
 run_program("/tmp/install/bin/busybox","sh","/tmp/gapps/META-INF/com/google/android/update-binary","dummy","1","/tmp/gapps/gapps.zip");
@@ -82,7 +82,7 @@ run_program("/tmp/install/bin/busybox","sh","/tmp/gapps/META-INF/com/google/andr
 ifelse(is_mounted(file_getprop("/tmp/config", "sysmnt")), "", mount("ext4", "EMMC", file_getprop("/tmp/config", "system"), file_getprop("/tmp/config", "sysmnt")));
 set_progress(0.900000);
 #PATCH
-ui_print("PATCH");
+ui_print("INSTALLING PATCH...");
 run_program("/sbin/sleep","2");
 run_program("/tmp/install/bin/busybox","unzip","/tmp/patch/patch.zip","META-INF/com/google/android/*","-d","/tmp/patch");
 run_program("/tmp/install/bin/busybox","sh","/tmp/patch/META-INF/com/google/android/update-binary","dummy","1","/tmp/patch/patch.zip");
