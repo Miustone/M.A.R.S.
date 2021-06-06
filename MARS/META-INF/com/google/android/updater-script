@@ -1,0 +1,155 @@
+show_progress(1.00,5);
+set_progress(0.00);
+ui_print(" ");
+ui_print("             --- INITIATING M.A.R.S. ---");
+ui_print(" ");
+run_program("/sbin/sync");
+run_program("/sbin/sleep","1");
+##################################################################################################################################
+ui_print("                 EXTRACTING TOOLS");
+set_progress(0.01);
+##################################################################################################################################
+run_program("/sbin/sleep","1");
+package_extract_dir("META-INF/com/google/android/mars/gapps/gapps","/tmp/gapps");
+package_extract_dir("META-INF/com/google/android/mars/gapps/prop","/tmp/install");
+package_extract_dir("META-INF/com/google/android/mars/magisk","/tmp/magisk");
+package_extract_dir("META-INF/com/google/android/mars/patch/patch","/tmp/patch");
+package_extract_dir("META-INF/com/google/android/mars/patch/prop","/tmp");
+package_extract_file("META-INF/com/google/android/mars/busybox/busybox", "/sbin/busybox");
+run_program("/sbin/chmod", "750", "/sbin/busybox");
+set_progress(0.02);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 PREPARING DEVICE");
+set_progress(0.05);
+##################################################################################################################################
+run_program("/sbin/sleep","1");
+ifelse(is_mounted("/cache"), unmount("/cache"));
+ifelse(is_mounted("/data"), unmount("/data"));
+ifelse(is_mounted("/system_root"), unmount("/system_root"));
+ifelse(is_mounted("/vendor"), unmount("/vendor"));
+run_program("/sbin/sleep","1");
+run_program("/sbin/toybox","mount","/cache");
+run_program("/sbin/toybox","mount","/data");
+run_program("/sbin/toybox","mount","/system_root");
+run_program("/sbin/toybox","mount","/vendor");
+set_progress(0.10);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 CLEANING DEVICE");
+set_progress(0.15);
+##################################################################################################################################
+run_program("/sbin/sleep","1");
+delete_recursive("/cache");
+set_progress(0.15);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 BOOTANIMATION PATCH");
+set_progress(0.20);
+##################################################################################################################################
+run_program("/sbin/sleep","1");
+delete_recursive("/system_root/system/media/bootanimation.zip");
+delete_recursive("/system_root/system/media/shutdownanimation.zip");
+delete_recursive("/system_root/system/product/media/bootanimation.zip");
+delete_recursive("/system_root/system/product/media/shutdownanimation.zip");
+set_progress(0.25);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 CLEANING SYSTEM/VENDOR");
+set_progress(0.30);
+##################################################################################################################################
+run_program("/sbin/sleep","1");
+delete_recursive("/system_root/system/app/Stk");
+delete_recursive("/system_root/system/priv-app/SimpleGallery");
+delete_recursive("/system_root/system/priv-app/SoundPicker");
+delete_recursive("/system_root/system/product/app/ArrowThemesStub");
+delete_recursive("/system_root/system_ext/priv-app/StorageManager");
+set_progress(0.35);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 EXTRACTING SYSTEM/VENDOR");
+set_progress(0.40);
+#########################################################
+run_program("/sbin/sleep","1");
+package_extract_dir("META-INF/com/google/android/mars/system","/system_root/system");
+run_program("/sbin/sleep","5");
+package_extract_dir("META-INF/com/google/android/mars/vendor","/vendor");
+set_progress(0.45);
+##################################################################################################################################
+run_program("/sbin/sleep","2");
+run_program("/sbin/sync");
+ifelse(is_mounted("/cache"), unmount("/cache"));
+ifelse(is_mounted("/data"), unmount("/data"));
+ifelse(is_mounted("/system_root"), unmount("/system_root"));
+ifelse(is_mounted("/vendor"), unmount("/vendor"));
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 RUNNING TOOLS");
+set_progress(0.50);
+##################################################################################################################################
+#ui_print(" ");
+#ui_print("                 RUNNING PATCH");
+#run_program("/sbin/sleep","5");
+#run_program("/sbin/busybox","unzip","/tmp/patch/patch.zip","META-INF/com/google/android/*","-d","/tmp/patch");
+#run_program("/sbin/busybox","sh","/tmp/patch/META-INF/com/google/android/update-binary","dummy","1","/tmp/patch/patch.zip");
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 RUNNING MAGISK");
+run_program("/sbin/sleep","5");
+run_program("/sbin/busybox","unzip","/tmp/magisk/magisk.zip","META-INF/com/google/android/*","-d","/tmp/magisk");
+run_program("/sbin/busybox","sh","/tmp/magisk/META-INF/com/google/android/update-binary","dummy","1","/tmp/magisk/magisk.zip");
+set_progress(0.70);
+##################################################################################################################################
+#ui_print(" ");
+#ui_print("                 RUNNING GAPPS");
+#run_program("/sbin/sleep","5");
+#run_program("/sbin/busybox","unzip","/tmp/gapps/gapps.zip","META-INF/com/google/android/*","-d","/tmp/gapps");
+#run_program("/sbin/busybox","sh","/tmp/gapps/META-INF/com/google/android/update-binary","dummy","1","/tmp/gapps/gapps.zip");
+set_progress(0.80);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 FINISHING SETUP");
+set_progress(0.90);
+##################################################################################################################################
+run_program("/sbin/sleep","2");
+ifelse(is_mounted("/cache"), unmount("/cache"));
+ifelse(is_mounted("/data"), unmount("/data"));
+ifelse(is_mounted("/system_root"), unmount("/system_root"));
+ifelse(is_mounted("/vendor"), unmount("/vendor"));
+run_program("/sbin/sleep","1");
+run_program("/sbin/toybox","mount","/cache");
+run_program("/sbin/toybox","mount","/data");
+run_program("/sbin/toybox","mount","/system_root");
+run_program("/sbin/toybox","mount","/vendor");
+run_program("/sbin/sleep","1");
+set_progress(0.97);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 FILESYSTEM TRIMMING");
+ui_print(" ");
+ui_print("                 TRIMMING CACHE");
+run_program("/sbin/busybox","fstrim","-v","/cache");
+ui_print(" ");
+ui_print("                 TRIMMING DATA");
+run_program("/sbin/busybox","fstrim","-v","/data");
+ui_print(" ");
+ui_print("                 TRIMMING SYSTEM");
+run_program("/sbin/busybox","fstrim","-v","/system_root");
+ui_print(" ");
+ui_print("                 TRIMMING VENDOR");
+run_program("/sbin/busybox","fstrim","-v","/vendor");
+set_progress(0.98);
+##################################################################################################################################
+ui_print(" ");
+ui_print("                 FILESYSTEM REMOUNTING");
+run_program("/sbin/sleep","1");
+ifelse(is_mounted("/cache"), unmount("/cache"));
+ifelse(is_mounted("/data"), unmount("/data"));
+ifelse(is_mounted("/system_root"), unmount("/system_root"));
+ifelse(is_mounted("/vendor"), unmount("/vendor"));
+set_progress(0.99);
+##################################################################################################################################
+ui_print(" ");
+ui_print("             --- M.A.R.S. APPLIED ---");
+ui_print(" ");
+set_progress(1.00);
