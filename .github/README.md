@@ -1,4 +1,4 @@
-<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FMiustone%M.A.R.S.&count_bg=%2392C7FF&title_bg=%23000000&icon=github.svg&icon_color=%23FFFFFF&title=VISITORS%3A&edge_flat=true"/></a>
+
 ![GITHUB ALL RELEASES](https://img.shields.io/github/downloads/Miustone/M.A.R.S./total?style=flat-square&labelColor=000000) 
 ![GITHUB ALL ISSUES](https://img.shields.io/github/issues/Miustone/M.A.R.S.?style=flat-square&labelColor=000000) 
 ![GITHUB ALL FORKS](https://img.shields.io/github/forks/Miustone/M.A.R.S.?style=flat-square&labelColor=000000) 
